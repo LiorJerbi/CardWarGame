@@ -5,11 +5,11 @@
 using namespace ariel;
     
 
-Game::Game(const Player &pl1,const Player &pl2):_lst_turn(""),_table(){
+Game::Game(Player& pl1,Player& pl2):_lst_turn(""),_table(),_p1(pl1),_p2(pl2){
     if(&pl1 != &pl2 && pl1.getPlayerName() != pl2.getPlayerName()){
-    _p1=pl1;
-    _p2=pl2;
-    Game::makeDeck();}
+    Game::makeDeck();
+    std::cout << _p1.stacksize() << " Player 1 stacksize " << _p2.stacksize() << " Player 2 stacksize" << std::endl;
+    }
     else{
         std::cout << "Can't start a game with only 1 Player Or With Players with the same name. Try again!" << std::endl;
     }
@@ -39,6 +39,7 @@ void Game::makeDeck(){
 
 
 void Game::playTurn(){
+    // std::cout << _p2.stacksize() << "stacksize" << std::endl;
     if(_p1.stacksize()==0||_p2.stacksize()==0){
         std::cout << "Error. Not enough cards to play turn!" << std::endl;
         return;
@@ -85,7 +86,6 @@ void Game::playTurn(){
             }
         }
     }
-
 }
 void Game::printLastTurn(){
     std::cout << _lst_turn << std::endl;
