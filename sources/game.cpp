@@ -1,4 +1,4 @@
-#include "../sources/game.hpp"
+#include "game.hpp"
 #include <random>
 #include <algorithm>
 #include <iostream>
@@ -30,10 +30,10 @@ void Game::makeDeck(){
     std::shuffle(_deck.begin(),_deck.end(), g);
     int s=_deck.size();
     for(int i = 0; i < s/2; i++){
-        _p1.addCard(_deck[i]);
+        _p1.addCard(_deck[static_cast<std::vector<Card>::size_type>(i)]);
     }
     for(int i = s/2; i < s; i++){
-        _p2.addCard(_deck[i]);
+        _p2.addCard(_deck[static_cast<std::vector<Card>::size_type>(i)]);
     }
 }
 
@@ -52,7 +52,7 @@ void Game::playTurn(){
         _table.push_back(c2);
         _lst_turn += _p1.getPlayerName() + " played " + c1.printCard() + " " + _p2.getPlayerName() + " played " + c2.printCard() + ". ";
         if(c1.getIntRank() != c2.getIntRank()){
-            if(c1.getIntRank() < c2.getIntRank()){
+            if(c1.getIntRank() > c2.getIntRank()){
                 _lst_turn += _p1.getPlayerName() + " Wins.";        //Player 1 Wins.
                 _p1.addCardsWon(_table);
             }
@@ -76,10 +76,10 @@ void Game::playTurn(){
                 std::shuffle(_table.begin(),_table.end(), g);       
                 int s=_table.size();
                 for(int i = 0; i < s/2; i++){
-                    _p1.addCard(_table[i]);
+                    _p1.addCard(_table[static_cast<std::vector<Card>::size_type>(i)]);
                 }
                 for(int i = s/2; i < s; i++){
-                    _p2.addCard(_table[i]);
+                    _p2.addCard(_table[static_cast<std::vector<Card>::size_type>(i)]);
                 }
                 _table.clear();             
             }
@@ -88,7 +88,7 @@ void Game::playTurn(){
 
 }
 void Game::printLastTurn(){
-    std::cout << _lst_turn;
+    std::cout << _lst_turn << std::endl;
 }
 
 void Game::playAll(){

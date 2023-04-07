@@ -1,4 +1,4 @@
-#include "../sources/card.hpp"
+#include "card.hpp"
 #include <string>
 #include <iostream>
 #include <cstdlib>
@@ -83,6 +83,6 @@ void Card::setRank(Rank rank){
 }
 
 //Method that return repr of the card:
-std::string Card::printCard(){ std::cout << getRank() << " of " << getSuit();}
+std::string Card::printCard(){ return getRank() + " of " + getSuit();}
 
 

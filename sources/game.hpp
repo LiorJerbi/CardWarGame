@@ -16,7 +16,6 @@ private:
 public:
     //Constructors & Destructor
     Game(const Player &pl1, const Player &pl2);
-    ~Game();
 
 
     void playTurn();

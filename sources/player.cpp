@@ -1,4 +1,4 @@
-#include "../sources/player.hpp"
+#include "player.hpp"
 #include <string>
 using namespace std;
 using namespace ariel;
@@ -29,4 +29,9 @@ void Player::addCard(const Card &card){
 }
 void Player::addCardsWon(const std::vector<Card>& cards){
     _cards_won.insert(_cards_won.end(), cards.begin(), cards.end());
+}
+ariel::Card Player::drawCard(){
+    ariel::Card card = _pdeck.back();
+    _pdeck.pop_back();
+    return card;
 }

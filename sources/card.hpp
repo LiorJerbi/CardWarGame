@@ -29,7 +29,6 @@ public:
     //Constructors & Destructor:
     Card();
     Card(Suit suit, Rank rank);
-    ~Card();
     //Getters & Setters:
 
     std::string getSuit() const;
