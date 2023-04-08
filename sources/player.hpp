@@ -3,6 +3,7 @@
 #include <vector>
 #include "card.hpp"
 namespace ariel{
+    //Struct to hold each player Stats.
     struct PlayerStats {
         int wins = 0;
         int draws = 0;
@@ -10,19 +11,23 @@ namespace ariel{
     class Player{
     public:
 
-        Player();
-        Player(const std::string &name);
+    //Constructors
+    Player();
+    Player(const std::string &name);
 
-        int stacksize() const;
-        int cardesTaken() const;
-        std::string getPlayerName() const;
-        void setName(const std::string& name);
-        void addCard(const ariel::Card &card);
-        ariel::Card drawCard();
-        void addCardsWon(const std::vector<ariel::Card>& cards);
-        const PlayerStats& getStats() const;
-        void updateStats(int did_win=0, int did_draw=0);
-        std::string cardsWonRepr() const;
+    //Getters & Setters
+    int stacksize() const;
+    int cardesTaken() const;
+    std::string getPlayerName() const;
+    void setName(const std::string& name);
+    const PlayerStats& getStats() const;
+    void updateStats(int did_win=0, int did_draw=0);   
+
+    //Method to control the deck & cards won deck.
+    void addCard(const ariel::Card &card);
+    ariel::Card drawCard();
+    void addCardsWon(const std::vector<ariel::Card>& cards);
+    std::string cardsWonRepr() const;
 
     private:
         std::string _name;

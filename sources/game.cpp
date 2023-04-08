@@ -71,16 +71,25 @@ void Game::playTurn(){
             }
             if((_p1.stacksize() == 0 || _p2.stacksize() == 0) && _table.size() > 0){  //If there is a draw and the cards of the players ended.
                 //resplit the table cards between the players. 
-                std::cout << "ReShuffle War" << std::endl;
-                std::random_device rd;
-                std::mt19937 g(rd());
-                std::shuffle(_table.begin(),_table.end(), g);       
-                int s=_table.size();
-                for(int i = 0; i < s/2; i++){
-                    _p1.addCard(_table[static_cast<std::vector<Card>::size_type>(i)]);
+                if(_table.size() == 2){
+                    std::vector <ariel::Card> vc1,vc2;
+                    vc1.push_back(_table.back());
+                    _table.pop_back();
+                    vc2.push_back(_table.back());
+                    _table.pop_back();
                 }
-                for(int i = s/2; i < s; i++){
-                    _p2.addCard(_table[static_cast<std::vector<Card>::size_type>(i)]);
+                else{
+                    // std::cout << "ReShuffle War, Table size:" << _table.size() << "players stacks: " << _p1.stacksize() << _p2.stacksize() <<std::endl;
+                    std::random_device rd;
+                    std::mt19937 g(rd());
+                    std::shuffle(_table.begin(),_table.end(), g);       
+                    int s=_table.size();
+                    for(int i = 0; i < s/2; i++){
+                        _p1.addCard(_table[static_cast<std::vector<Card>::size_type>(i)]);
+                    }
+                    for(int i = s/2; i < s; i++){
+                        _p2.addCard(_table[static_cast<std::vector<Card>::size_type>(i)]);
+                    }
                 }
                 _table.clear();             
             }
@@ -99,7 +108,7 @@ void Game::playAll(){
 void Game::printWiner(){
     if(_p1.cardesTaken() > _p2.cardesTaken()){std::cout << _p1.getPlayerName() << std::endl;}
     else if(_p1.cardesTaken() < _p2.cardesTaken()){std::cout << _p2.getPlayerName() << std::endl;}
-    else{std::cout << "Draw!" << std::endl;}
+    else{throw std::logic_error("Draw!");}
 }
 void Game::printLog(){
     std::cout << _game_log;
@@ -107,12 +116,12 @@ void Game::printLog(){
 void Game::printStats(){
     std::cout << "\n\n****** Players Stats ******" << std::endl;
     std::cout << "Player Name: " << _p1.getPlayerName() << std::endl;
-    std::cout << "Turn's Won: " << _p1.getStats().wins << " Turn Win Rate: " << (_p1.getStats().wins/_turn_count) <<  std::endl;
-    std::cout << "Draw's Count: " << _p1.getStats().draws << " Draw Rate: " << (_p1.getStats().draws/_turn_count) <<  std::endl;
+    std::cout << "Turn's Won: " << _p1.getStats().wins << " Turn Win Rate: " << (static_cast<double>(_p1.getStats().wins)/_turn_count)*100 << "%" << std::endl;
+    std::cout << "Draw's Count: " << _p1.getStats().draws << " Draw Rate: " << (static_cast<double>(_p1.getStats().draws)/_turn_count)*100 << "%" <<  std::endl;
     std::cout << "Cards Won: " << _p1.cardsWonRepr() << std::endl<< "Total: "<< _p1.cardesTaken() << std::endl;
 
     std::cout << "Player Name: " << _p2.getPlayerName() << std::endl;
-    std::cout << "Turn's Won: " << _p2.getStats().wins << " Turn Win Rate: " << (_p2.getStats().wins/_turn_count) <<  std::endl;
-    std::cout << "Draw's Count: " << _p2.getStats().draws << " Draw Rate: " << (_p2.getStats().draws/_turn_count) <<  std::endl;
+    std::cout << "Turn's Won: " << _p2.getStats().wins << " Turn Win Rate: " << (static_cast<double>(_p2.getStats().wins)/_turn_count)*100 << "%" << std::endl;
+    std::cout << "Draw's Count: " << _p2.getStats().draws << " Draw Rate: " << (static_cast<double>(_p2.getStats().draws)/_turn_count)*100 << "%" <<  std::endl;
     std::cout << "Cards Won: " << _p2.cardsWonRepr() << std::endl << "Total: "<< _p2.cardesTaken() << std::endl;
 }

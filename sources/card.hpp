@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 namespace ariel{
-//Enums represents Suits and Ranks.
+//Enums to represent the cards Suits and Ranks.
 enum class Suit {
     Hearts,
     Diamonds,
@@ -25,23 +25,19 @@ enum class Rank {
 };
 class Card{
 public:
-
     //Constructors & Destructor:
     Card();
     Card(Suit suit, Rank rank);
+    
     //Getters & Setters:
-
     std::string getSuit() const;
     std::string getRank() const;
     Rank getIntRank() const;
-
     void setSuit(Suit suit);
     void setRank(Rank rank);
 
     //Method to show the card:
-
     std::string printCard() const;
-
 
 private:
     Suit _suit;
@@ -50,5 +46,4 @@ private:
     std::string getStringRank() const;
 
 };
-
 }

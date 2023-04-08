@@ -5,7 +5,8 @@
 
 using namespace std;
 using namespace ariel;
-    
+
+//Method to retreive the repr of the Suit.
 std::string Card::getStringSuit() const{
     switch(_suit){
         case Suit::Clubs:
@@ -19,6 +20,7 @@ std::string Card::getStringSuit() const{
     }
 }
 
+//Method to retreive the repr of the Rank.
 std::string Card::getStringRank() const{    
     switch(_rank){
         case Rank::Ace:
@@ -50,6 +52,7 @@ std::string Card::getStringRank() const{
     }
 }
 
+//Constructors.
 Card::Card(){
     srand(time(nullptr));
 
@@ -64,7 +67,6 @@ Card::Card(Suit suit, Rank rank){
 }
 
 //Getters & Setters:
-
 std::string Card::getSuit() const{
     return Card::getStringSuit();
 }
@@ -74,7 +76,6 @@ std::string Card::getRank() const{
 Rank Card::getIntRank() const{
     return _rank;
 }
-
 void Card::setSuit(Suit suit){
     _suit=suit;
 }
