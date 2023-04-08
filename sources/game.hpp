@@ -12,6 +12,7 @@ private:
     std::vector <Card> _deck,_table;
     std::string _lst_turn,_game_log;
     void makeDeck();
+    int _turn_count;
 
 public:
     //Constructors & Destructor

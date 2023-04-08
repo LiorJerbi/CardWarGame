@@ -40,7 +40,7 @@ public:
 
     //Method to show the card:
 
-    std::string printCard();
+    std::string printCard() const;
 
 
 private:

@@ -83,6 +83,6 @@ void Card::setRank(Rank rank){
 }
 
 //Method that return repr of the card:
-std::string Card::printCard(){ return getRank() + " of " + getSuit();}
+std::string Card::printCard() const{ return getRank() + " of " + getSuit();}
 
 

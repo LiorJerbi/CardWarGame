@@ -5,14 +5,8 @@
 using namespace ariel;
     
 
-Game::Game(Player& pl1,Player& pl2):_lst_turn(""),_table(),_p1(pl1),_p2(pl2){
-    if(&pl1 != &pl2 && pl1.getPlayerName() != pl2.getPlayerName()){
+Game::Game(Player& pl1,Player& pl2):_lst_turn(""),_table(),_p1(pl1),_p2(pl2),_turn_count(0){
     Game::makeDeck();
-    std::cout << _p1.stacksize() << " Player 1 stacksize " << _p2.stacksize() << " Player 2 stacksize" << std::endl;
-    }
-    else{
-        std::cout << "Can't start a game with only 1 Player Or With Players with the same name. Try again!" << std::endl;
-    }
 }
 
 void Game::makeDeck(){
@@ -39,10 +33,11 @@ void Game::makeDeck(){
 
 
 void Game::playTurn(){
-    // std::cout << _p2.stacksize() << "stacksize" << std::endl;
+    if(_p1.getPlayerName() == _p2.getPlayerName()){
+        throw std::invalid_argument("Can't start a game with same player Or players with the same name!");
+    }
     if(_p1.stacksize()==0||_p2.stacksize()==0){
-        std::cout << "Error. Not enough cards to play turn!" << std::endl;
-        return;
+        throw std::runtime_error("Error: Not enough cards to play turn!");
     }
     _lst_turn = "";
     _table.clear();
@@ -52,26 +47,31 @@ void Game::playTurn(){
         _table.push_back(c1);
         _table.push_back(c2);
         _lst_turn += _p1.getPlayerName() + " played " + c1.printCard() + " " + _p2.getPlayerName() + " played " + c2.printCard() + ". ";
+        _turn_count++;
         if(c1.getIntRank() != c2.getIntRank()){
             if(c1.getIntRank() > c2.getIntRank()){
                 _lst_turn += _p1.getPlayerName() + " Wins.";        //Player 1 Wins.
                 _p1.addCardsWon(_table);
+                _p1.updateStats(1,0);
             }
             else{
                 _lst_turn += _p2.getPlayerName() + " Wins.";        //Player 2 Wins.
                 _p2.addCardsWon(_table);
+                _p2.updateStats(1,0);
             }
             _game_log += _lst_turn + "\n";
             return;
         }
         else{
             _lst_turn +=" Draw.";
+            _p1.updateStats(0,1),_p2.updateStats(0,1);
             if(_p1.stacksize() > 0 && _p2.stacksize() > 0){     //Put 2 Cards upsidedown.
                 _table.push_back(_p1.drawCard());
                 _table.push_back(_p2.drawCard());
             }
             if((_p1.stacksize() == 0 || _p2.stacksize() == 0) && _table.size() > 0){  //If there is a draw and the cards of the players ended.
                 //resplit the table cards between the players. 
+                std::cout << "ReShuffle War" << std::endl;
                 std::random_device rd;
                 std::mt19937 g(rd());
                 std::shuffle(_table.begin(),_table.end(), g);       
@@ -102,8 +102,17 @@ void Game::printWiner(){
     else{std::cout << "Draw!" << std::endl;}
 }
 void Game::printLog(){
-    std::cout << _game_log << std::endl;
+    std::cout << _game_log;
 }
 void Game::printStats(){
-    return;
+    std::cout << "\n\n****** Players Stats ******" << std::endl;
+    std::cout << "Player Name: " << _p1.getPlayerName() << std::endl;
+    std::cout << "Turn's Won: " << _p1.getStats().wins << " Turn Win Rate: " << (_p1.getStats().wins/_turn_count) <<  std::endl;
+    std::cout << "Draw's Count: " << _p1.getStats().draws << " Draw Rate: " << (_p1.getStats().draws/_turn_count) <<  std::endl;
+    std::cout << "Cards Won: " << _p1.cardsWonRepr() << std::endl<< "Total: "<< _p1.cardesTaken() << std::endl;
+
+    std::cout << "Player Name: " << _p2.getPlayerName() << std::endl;
+    std::cout << "Turn's Won: " << _p2.getStats().wins << " Turn Win Rate: " << (_p2.getStats().wins/_turn_count) <<  std::endl;
+    std::cout << "Draw's Count: " << _p2.getStats().draws << " Draw Rate: " << (_p2.getStats().draws/_turn_count) <<  std::endl;
+    std::cout << "Cards Won: " << _p2.cardsWonRepr() << std::endl << "Total: "<< _p2.cardesTaken() << std::endl;
 }

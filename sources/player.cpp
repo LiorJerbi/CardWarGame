@@ -3,13 +3,15 @@
 using namespace std;
 using namespace ariel;
 
-int Player::_count = 1;
-
-
-Player::Player():_name("Player_" + std::to_string(_count)),_pdeck(),_cards_won(){
-    ++_count;
+int Player::getCount(){
+    static int count=0;
+    return count++;
 }
-Player::Player(const string &name):_name(name),_pdeck(),_cards_won(){
+
+
+Player::Player():_name("Player_" + std::to_string(Player::getCount())),_pdeck(),_cards_won(),_stats(){
+}
+Player::Player(const string &name):_name(name),_pdeck(),_cards_won(),_stats(){
 }
 
 std::string Player::getPlayerName() const{
@@ -34,4 +36,29 @@ ariel::Card Player::drawCard(){
     ariel::Card card = _pdeck.back();
     _pdeck.pop_back();
     return card;
+}
+const PlayerStats& Player::getStats() const{
+    return _stats;
+}
+void Player::updateStats(int did_win, int did_draw){
+    if(did_win!=0){
+        _stats.wins++;
+    }
+    if(did_draw!=0){
+        _stats.draws++;
+    }
+}
+std::string Player::cardsWonRepr() const{
+    std::string result = "";
+    for (int i = 0; i < _cards_won.size(); i++) {
+        result += _cards_won[static_cast<std::vector<Card>::size_type>(i)].printCard();
+        if (i != _cards_won.size() - 1) {
+            if ((i+1)%4==0) {
+                result += ",\n";
+            } else {
+                result += ", ";
+            }
+        }
+    }
+    return result;
 }
