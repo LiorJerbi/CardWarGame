@@ -4,13 +4,13 @@
 #include <iostream>
 using namespace ariel;
     
-
+//Constructor
 Game::Game(Player& pl1,Player& pl2):_lst_turn(""),_table(),_p1(pl1),_p2(pl2),_turn_count(0){
     Game::makeDeck();
 }
-
+//Method that makes a new deck of 52 cards and splits them randomly between players.
 void Game::makeDeck(){
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 4; i++) {   //Generate deck of 52 Cards of 4 Suits and 13 Ranks for each suit.
         for (int j = 1; j <= 13; j++) {
             ariel::Suit suit = static_cast<ariel::Suit>(i);
             ariel::Rank rank = static_cast<ariel::Rank>(j);
@@ -30,10 +30,9 @@ void Game::makeDeck(){
         _p2.addCard(_deck[static_cast<std::vector<Card>::size_type>(i)]);
     }
 }
-
-
+//Method to play turn of the game
 void Game::playTurn(){
-    if(_p1.getPlayerName() == _p2.getPlayerName()){
+    if(_p1.getPlayerName() == _p2.getPlayerName()){     
         throw std::invalid_argument("Can't start a game with same player Or players with the same name!");
     }
     if(_p1.stacksize()==0||_p2.stacksize()==0){
@@ -99,7 +98,6 @@ void Game::playTurn(){
 void Game::printLastTurn(){
     std::cout << _lst_turn << std::endl;
 }
-
 void Game::playAll(){
     while(_p1.stacksize() > 0 && _p2.stacksize() > 0){
         Game::playTurn();
