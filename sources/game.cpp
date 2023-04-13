@@ -106,7 +106,7 @@ void Game::playAll(){
 void Game::printWiner(){
     if(_p1.cardesTaken() > _p2.cardesTaken()){std::cout << _p1.getPlayerName() << std::endl;}
     else if(_p1.cardesTaken() < _p2.cardesTaken()){std::cout << _p2.getPlayerName() << std::endl;}
-    else{throw std::logic_error("Draw!");}
+    else{std::cout << "Draw!" << std::endl;}
 }
 void Game::printLog(){
     std::cout << _game_log;
